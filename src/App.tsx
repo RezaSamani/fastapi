@@ -1,15 +1,16 @@
-import { ThemeProvider } from "@/components/theme-provider"
-import { ModeToggle } from "./components/mode-toggle"
-import { Button } from "./components/ui/button"
+import { ThemeProvider } from "@/components/theme-provider";
+import { ModeToggle } from "./components/mode-toggle";
+import Creat from "@/pages/create";
+import Login from "./pages/Login";
 function App() {
+
   return (
-    <>
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-     <ModeToggle></ModeToggle>
+      <ModeToggle />
+      <Creat/>
+      <Login/>
     </ThemeProvider>
-    <Button>salam</Button>
-    </>
-  )
+  );
 }
 
-export default App
+export default App;
