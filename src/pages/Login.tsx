@@ -18,7 +18,7 @@ function Login() {
             return msg;
         }
     };
- 
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setMessage("");
@@ -26,7 +26,6 @@ function Login() {
         try {
             const response = await fetch(
                 "http://172.17.17.10:8000/accounts/login",
-
                 {
                     method: "POST",
                     headers: {
@@ -43,18 +42,23 @@ function Login() {
             } catch {
                 data = null;
             }
-
             if (!response.ok) {
                 setMessageColor("red");
                 setMessage(formatMessage(data));
             } else {
                 setMessageColor("green");
-                setMessage("User created successfully!");
+                setMessage("Logged in successfully!");
+
+                // ⭐ SAVE TOKEN HERE ⭐
+                localStorage.setItem("theToken", data.access_token);
+
+
                 setUsername("");
                 setPassword("");
             }
-console.log("thisssss");
-          
+        
+
+
         } catch (err) {
             console.error("Network error:", err);
             setMessageColor("red");
