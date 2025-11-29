@@ -1,18 +1,35 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "./components/mode-toggle";
-import Creat from "@/pages/Create";
-import Login from "@/pages/Login";
-import Create_Product from "@/pages/CreatProducts";
-import ProductsList from "./pages/Getproducts";
-function App() {
+import Sidebar from "@/components/Sidebar";
+import { Routes, Route } from "react-router-dom";
 
+import Login from "@/pages/Login";
+import CreateProduct from "@/pages/CreatProducts";
+import ProductsList from "@/pages/Getproducts";
+import Creat from "./pages/Create";
+import Ar from "./pages/A";
+
+function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <ModeToggle />
-      <Creat/>
-      <Login />
-      <Create_Product/>
-      <ProductsList />
+      <div className="flex">
+
+        {/* Left menu */}
+        <Sidebar />
+
+        {/* Page content */}
+        <div className="flex-1 p-4">
+          <ModeToggle />
+
+          <Routes>
+            <Route path="/" element={<ProductsList />} />
+            <Route path="/Create" element={<Creat />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/create-product" element={<CreateProduct />} />
+          </Routes>
+        </div>
+
+      </div>
     </ThemeProvider>
   );
 }
