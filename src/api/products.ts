@@ -15,8 +15,6 @@ export async function apiCreateProduct(formData: FormData) {
     headers: { Authorization: "Bearer " + localStorage.getItem("theToken") },
     body: formData,
   });
-  console.log("1010");
-
 
   return res.json();
 }

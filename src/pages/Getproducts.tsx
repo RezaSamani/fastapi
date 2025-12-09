@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Card, CardHeader, CardContent, CardFooter, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@radix-ui/react-dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash, ShoppingCart } from "lucide-react";
+import { Edit, Trash, ShoppingCart, ALargeSmall } from "lucide-react";
 import Modal from "@/components/Modal";
 import { ProductForm } from "./ProductForm";
 import {
@@ -19,11 +20,15 @@ export default function ProductsList() {
     [key: string]: any;
   }
 
+
+
   const [products, setProducts] = useState<Product[]>([]);
   const [query, setQuery] = useState<string>("");
   const [editing, setEditing] = useState<Product | null>(null);
   // state for create modal (opens ProductForm in create mode)
   const [creating, setCreating] = useState<boolean>(false);
+
+  const [n, setn] = useState<number>(0);
 
   useEffect(() => {
     (async () => {
@@ -37,7 +42,7 @@ export default function ProductsList() {
     setProducts((prev) => prev.filter((p) => p.id !== id));
   };
 
-  const handleUpdate = (updated: { id?: number; [key: string]: any }) => {
+  const handleUpdate = (updated: { id?: number;[key: string]: any }) => {
     // in edit mode the returned product should have an id; if not, ignore
     if (updated.id === undefined) return;
     setProducts((prev) =>
@@ -45,12 +50,13 @@ export default function ProductsList() {
     );
   };
 
+
   const filtered = products.filter((p) =>
     p?.name?.toLowerCase().includes(query.toLowerCase())
   );
 
   return (
-    
+
     <div className="p-6">
       {/* Search + create button row */}
       <div className="flex items-center justify-center gap-3 max-w-3xl mx-auto mb-6">
@@ -65,9 +71,9 @@ export default function ProductsList() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-2 ">
         {filtered.map((p) => (
-          <Card key={p.id} className="shadow hover:shadow-lg">
+          <Card key={p.id} className="shadow hover:shadow-lg ">
             <CardHeader className="flex justify-between">
               <CardTitle>{p.name}</CardTitle>
               <div className="flex gap-2">
@@ -80,7 +86,7 @@ export default function ProductsList() {
               </div>
             </CardHeader>
 
-            <CardContent>
+            <CardContent className="">
               {p.image ? (
                 <img src={p.image} className="w-full h-48 rounded object-cover" />
               ) : (
@@ -90,41 +96,52 @@ export default function ProductsList() {
               )}
             </CardContent>
 
-            <CardFooter className="flex justify-between">
-              <p className="font-bold">{p.price} تومان</p>
-              <Button variant="outline" size="sm">
-                <ShoppingCart size={14} /> خرید
-              </Button>
+            <CardFooter className=" grid justify-between grid-cols-2">
+              <p className="font-bold ">{p.price} تومان</p>
+              {n ?
+                (<div className="grid grid-cols-4">
+                  <Button size={"icon-sm"} onClick={()=> setn(n-1)}>-</Button>
+                  <Label className=" text-center">{(n)}</Label>
+                  <Button size={"icon-sm"} onClick={()=> setn(n+1)}>+</Button>
+                </div>) :
+                (<Button variant="outline" size="sm" onClick={() => {
+                  setn(n + 1);
+                }}>
+                  <ShoppingCart size={14} /> خرید
+                </Button>)}
+
+
             </CardFooter>
           </Card>
         ))}
       </div>
 
-        {/* Edit modal (reuses ProductForm) */}
-        {editing && (
-          <Modal onClose={() => setEditing(null)}>
-            <ProductForm
-              mode="edit"
-              initialData={editing}
-              onSuccess={handleUpdate}
-              onClose={() => setEditing(null)}
-            />
-          </Modal>
-        )}
+      {/* Edit modal (reuses ProductForm) */}
+      {editing && (
+        <Modal onClose={() => setEditing(null)}>
+          <ProductForm
+            mode="edit"
+            initialData={editing}
+            onSuccess={handleUpdate}
+            onClose={() => setEditing(null)}
+          />
+        </Modal>
+      )}
 
-        {/* Create modal: opens ProductForm in create mode and prepends created product to list */}
-        {creating && (
-          <Modal onClose={() => setCreating(false)}>
-            <ProductForm
-              mode="create"
-              onSuccess={(prod: any) => {
-                // insert at top for immediate feedback
-                setProducts((prev) => [prod, ...prev]);
-              }}
-              onClose={() => setCreating(false)}
-            />
-          </Modal>
-        )}
+      {/* Create modal: opens ProductForm in create mode and prepends created product to list */}
+      {creating && (
+        <Modal onClose={() => setCreating(false)}>
+          <ProductForm
+            mode="create"
+            onSuccess={(prod: any) => {
+              // insert at top for immediate feedback
+              setProducts((prev) => [prod, ...prev]);
+            }}
+            onClose={() => setCreating(false)}
+          />
+        </Modal>
+      )}
+
     </div>
   );
 }

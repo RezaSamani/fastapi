@@ -9,6 +9,7 @@ function Login() {
     const [message, setMessage] = useState("");
     const [messageColor, setMessageColor] = useState("red");
 
+
     const formatMessage = (msg: any) => {
         if (Array.isArray(msg)) {
             return msg.map((m) => m.msg || JSON.stringify(m)).join(", ");
@@ -19,6 +20,8 @@ function Login() {
         }
     };
 
+    
+    
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setMessage("");
@@ -51,6 +54,8 @@ function Login() {
 
                 // ⭐ SAVE TOKEN HERE ⭐
                 localStorage.setItem("theToken", data.access_token);
+                localStorage.setItem("refreshToken", data.refresh_token);
+               
 
 
                 setUsername("");

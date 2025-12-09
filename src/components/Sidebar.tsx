@@ -4,6 +4,7 @@ import { ModeToggle } from "./mode-toggle";
 
 
 export default function Sidebar() {
+
   return (
 
     <div className="w-60 h-screen 
@@ -14,9 +15,11 @@ export default function Sidebar() {
       <div className="flex row justify-between">
         <h2 className="text-xl font-bold">My Store</h2> <ModeToggle />
       </div>
-      <Link className="flex items-center gap-2 hover:text-blue-400" to="/">
+     
+      <Link className="flex items-center gap-2 hover:text-blue-400" to="/products">
         <Home size={18} /> Products
       </Link>
+     
 
       {/* Create Product page removed — creation now available from Products page via modal */}
 
@@ -24,7 +27,7 @@ export default function Sidebar() {
         <UserPlus size={18} /> Create User
       </Link>
 
-      <Link className="flex items-center gap-2 hover:text-blue-400" to="/login">
+      <Link className="flex items-center gap-2 hover:text-blue-400" to="/">
         <LogIn size={18} /> Login
       </Link>
 
