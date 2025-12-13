@@ -53,9 +53,7 @@ const refresh_token = async () => {
 
         {/* Page content */}
         <div className="flex-1 p-4">
-          <button onClick={()=>{refresh_token()}}>
-            refreshh
-          </button>
+  
           <Routes>
             {/* Public route */}
             <Route path="/" element={<Login />} />
